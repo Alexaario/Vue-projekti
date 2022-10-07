@@ -12,12 +12,12 @@ body{
 }
 
 .datetime{
-    color: #fff;
+    color: #cce0ff;
     background: #000;
     font-family: "Segoe UI", sans-serif;
     width: 340px;
     padding: 15px 10px;
-    border: 3px solid #151;
+    border: 3px solid #4d94ff;
     border-radius: 20px;
     -webkit-box-reflect: below 1px linear-gradient(trasparent, rgba(255, 255, 255, 0.1));
 }
@@ -45,7 +45,7 @@ body{
 }
 
 .time span:last-child{
-    background: #151;
+    background: #4d94ff;
     font-size: 30px;
     font-weight: 600;
     text-transform: uppercase;
