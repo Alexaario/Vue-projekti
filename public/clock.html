@@ -55,7 +55,7 @@
                 var ids = ["dayname", "mounth", "daynum", "year", "hour", "minutes", "seconds", "perioid"];
                 var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
                 for(var i = 0; i < ids.length; i++)
-                    document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+                document.getElementById(ids[i]).firstChild.nodeValue = values[i];
         }
 
         function initClock(){
