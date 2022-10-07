@@ -34,14 +34,14 @@
                 hou = now.getHours(),
                 min = now.getMinutes(),
                 sec = now.getSeconds(),
-                pe = "AP";
+                pe = "AM";
 
                 if(hou == 0){
                     hou = 12;
                 }
                 if(hou > 12){
                     hou = hou - 12;
-                    pe = "IP";
+                    pe = "PM";
                 }
 
                 Number.prototype.pad = function(digits){
