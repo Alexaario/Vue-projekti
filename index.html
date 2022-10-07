@@ -42,7 +42,7 @@
 
                                 document.getElementById("train").innerHTML = ""
 
-                                let divMap = departing.map((x) => {
+                                let divMap = departing.sort().map((x) => {
                                   return `<div>
                                             ${x[0]} 
                                             ${x[1].commuterLineID}
