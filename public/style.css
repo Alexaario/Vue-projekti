@@ -20,8 +20,6 @@ body{
     border: 3px solid #151;
     border-radius: 20px;
     -webkit-box-reflect: below 1px linear-gradient(trasparent, rgba(255, 255, 255, 0.1));
-    transition: 0.5s;
-    transition-property: backround, box-shadow;
 }
 
 .date{
