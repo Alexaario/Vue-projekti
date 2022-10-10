@@ -6,57 +6,55 @@
 
     <body>
         <div id="trains">
-            <div id="train"></div>
+            <div v-for="(train, index) in trainsData">
+              <div>{{ train[0] }} {{ train[1].commuterLineID }}</div>
+            </div>
         </div>
 
-        <script defer language="javascript">
+        <script language="javascript">
             var vm = new Vue({
                 el: "#trains",
                 data: {
-                  trainData: ""
+                    trainsData: null,
                 },
 
                 methods: {
-                    getTrainData: function () {
+                    getTrainData: async function () {
+                        const trainsToGet = 100
+
                         let trains = [];
 
-                        axios.get("https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=10&station=KE")
-                        .then((res) => {
+                        await axios
+                            .get(
+                                `https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=${trainsToGet}&station=KE`
+                            )
+                            .then((res) => {
                                 trains = res.data;
-
-                                let departing = [];
-
-                                trains.forEach((departures) => {
-                                    let trainTimeTable = departures.timeTableRows;
-
-                                    trainTimeTable.forEach((departure) => {
-                                        if (departure.type !== "DEPARTURE") return;
-                                        if (departure.stationShortCode !== "KE") return;
-
-                                        let date = new Date(departure.scheduledTime).toLocaleString("fi-FI");
-                                        departing.push([date, departures]);
-                                    });
-                                });
-
-                                this.trainData = departing.sort()
-
-                                document.getElementById("train").innerHTML = ""
-
-                                let divMap = departing.sort().map((x) => {
-                                  return `<div>
-                                            ${x[0]} 
-                                            ${x[1].commuterLineID}
-                                          </div>`
-                                })
-
-                                divMap.forEach(div => {
-                                  document.getElementById("train").innerHTML += div
-                                });
                             });
+
+                        let departing = [];
+
+                        trains.forEach((departures) => {
+                            if (departures.trainCategory !== "Commuter") return;
+
+                              let trainTimeTable = departures.timeTableRows;
+
+                            trainTimeTable.forEach((departure) => {
+                                if (departure.type !== "DEPARTURE") return;
+                                if (departure.stationShortCode !== "KE") return;
+
+                                let date = new Date(departure.scheduledTime).toLocaleString("fi-FI");
+                                departing.push([date, departures]);
+                            });
+                        });
+
+                        console.log("Update");
+
+                        this.trainsData = departing.sort();
                     },
                 },
 
-                mounted: function () {
+                mounted: async function () {
                     this.getTrainData();
 
                     this.timer = setInterval(() => {
