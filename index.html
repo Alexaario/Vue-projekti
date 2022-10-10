@@ -1,67 +1,71 @@
 <html>
-    <head>
-        <script src="https://unpkg.com/vue@2.4.3/dist/vue.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-    </head>
 
-    <body>
-        <div id="trains">
-            <div v-for="(train, index) in trainsData">
-              <div>{{ train[0] }} {{ train[1].commuterLineID }}</div>
-            </div>
+<head>
+    <script src="https://unpkg.com/vue@2.4.3/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+</head>
+
+<body>
+    <h1>Keravalta lähtevät junat</h1>
+    <div id="trains">
+        <div v-for="(train, index) in trainsData">
+            {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }} | {{ train[1].commuterLineID }}
         </div>
+    </div>
 
-        <script language="javascript">
-            var vm = new Vue({
-                el: "#trains",
-                data: {
-                    trainsData: null,
-                },
+    <script language="javascript">
+        var vm = new Vue({
+            el: "#trains",
+            data: {
+                trainsData: null,
+            },
 
-                methods: {
-                    getTrainData: async function () {
-                        const trainsToGet = 100
+            methods: {
+                getTrainData: async function () {
+                    const trainsToGet = 10
 
-                        let trains = [];
+                    let trains = [];
 
-                        await axios
-                            .get(
-                                `https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=${trainsToGet}&station=KE`
-                            )
-                            .then((res) => {
-                                trains = res.data;
-                            });
-
-                        let departing = [];
-
-                        trains.forEach((departures) => {
-                            if (departures.trainCategory !== "Commuter") return;
-
-                              let trainTimeTable = departures.timeTableRows;
-
-                            trainTimeTable.forEach((departure) => {
-                                if (departure.type !== "DEPARTURE") return;
-                                if (departure.stationShortCode !== "KE") return;
-
-                                let date = new Date(departure.scheduledTime).toLocaleString("fi-FI");
-                                departing.push([date, departures]);
-                            });
+                    await axios
+                        .get(
+                            `https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=${trainsToGet}&station=KE`
+                        )
+                        .then((res) => {
+                            trains = res.data;
                         });
 
-                        console.log("Update");
+                    let departing = [];
 
-                        this.trainsData = departing.sort();
-                    },
+                    trains.forEach((departures) => {
+                        if (departures.trainCategory !== "Commuter") return;
+                        if (departures.commuterLineID === "V") return;
+
+                        let trainTimeTable = departures.timeTableRows;
+
+                        trainTimeTable.forEach((departure) => {
+                            if (departure.type !== "DEPARTURE") return;
+                            if (departure.stationShortCode !== "KE") return;
+
+                            let date = new Date(departure.scheduledTime);
+                            departing.push([date, departures]);
+                        });
+                    });
+
+                    console.log("Update");
+
+                    this.trainsData = departing.sort();
                 },
+            },
 
-                mounted: async function () {
+            mounted: async function () {
+                this.getTrainData();
+
+                this.timer = setInterval(() => {
                     this.getTrainData();
+                }, 10000);
+            },
+        });
+    </script>
+</body>
 
-                    this.timer = setInterval(() => {
-                        this.getTrainData();
-                    }, 10000);
-                },
-            });
-        </script>
-    </body>
 </html>
