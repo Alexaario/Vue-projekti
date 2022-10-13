@@ -8,8 +8,8 @@
 <body>
     <h1>Keravalta lähtevät junat</h1>
     <div id="trains">
-        <div v-for="(train, index) in trainsData">
-            {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }} | {{ train[1].commuterLineID }}
+        <div v-for="train in trainsData">
+            {{ train[0].toLocaleTimeString("fi-FI") }} | {{ train[1].commuterLineID }}
         </div>
     </div>
 
@@ -22,7 +22,7 @@
 
             methods: {
                 getTrainData: async function () {
-                    const trainsToGet = 10
+                    const trainsToGet = 20
 
                     let trains = [];
 
@@ -39,12 +39,15 @@
                     trains.forEach((departures) => {
                         if (departures.trainCategory !== "Commuter") return;
                         if (departures.commuterLineID === "V") return;
+                        if (departures.cancelled === true) return;
 
                         let trainTimeTable = departures.timeTableRows;
 
                         trainTimeTable.forEach((departure) => {
                             if (departure.type !== "DEPARTURE") return;
                             if (departure.stationShortCode !== "KE") return;
+                            if (departure.cancelled === true) return;
+
 
                             let date = new Date(departure.scheduledTime);
                             departing.push([date, departures]);
@@ -54,6 +57,7 @@
                     console.log("Update");
 
                     this.trainsData = departing.sort();
+                    console.log(departing.sort())
                 },
             },
 
