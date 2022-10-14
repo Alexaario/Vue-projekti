@@ -26,8 +26,8 @@
             <div id="trains">
             <div class="grid">
                 <span>Lähtöaika</span>
-                <span>Raide</span>
                 <span>Lähtöön</span>
+                <span>Raide</span>
                 <span>Juna</span>
                 <span>Määränpää</span>
             </div>
@@ -37,10 +37,10 @@
                     {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }}
                 </span>
                 <span>
-                    {{ train[1].timeTableRows[train[2]].commercialTrack }}
+                    {{ setTime(train) }}
                 </span>
                 <span>
-                    {{ setTime(train) }}
+                    {{ train[1].timeTableRows[train[2]].commercialTrack }}
                 </span>
                 <span>
                     {{ train[1].commuterLineID }}
