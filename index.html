@@ -614,12 +614,12 @@
 
                         if (timeUntilDeparture.getHours()) {
                             if (timeUntilDeparture.getMinutes() < 10) {
-                                formattedTime = `${timeUntilDeparture.getHours()}.0${timeUntilDeparture.getMinutes()}`
+                                formattedTime = `${timeUntilDeparture.getHours()}.0${timeUntilDeparture.getMinutes()} h`
                             } else {
-                                formattedTime = `${timeUntilDeparture.getHours()}.${timeUntilDeparture.getMinutes()}`
+                                formattedTime = `${timeUntilDeparture.getHours()}.${timeUntilDeparture.getMinutes()} h`
                             }
                         } else {
-                            formattedTime = `${timeUntilDeparture.getMinutes()}`
+                            formattedTime = `${timeUntilDeparture.getMinutes()} min`
                         }
 
                         return formattedTime
