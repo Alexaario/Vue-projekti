@@ -608,8 +608,8 @@
 
                         formattedTime = ""
 
-                        if (timeUntilDeparture < 0) {
-                            return 0
+                        if (timeUntilDeparture.getHours() > 20) {
+                            return "0 min"
                         }
 
                         if (timeUntilDeparture.getHours()) {
