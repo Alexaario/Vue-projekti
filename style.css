@@ -4,7 +4,8 @@
 }
 
 h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
+  text-align: center;
 }
 
 .wrapper {
@@ -15,8 +16,13 @@ h1 {
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(4, 1fr);
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   justify-items: center;
+}
+
+.cancelled {
+  text-decoration: line-through;
+  background-color: red;
 }
 
 .grid > * {
@@ -32,25 +38,11 @@ h1 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .train-grid > * {
   width: 100%;
   font-size: 2rem;
   text-align: center;
-}
-
-.destination {
-  margin-bottom: 0.1rem;
-}
-
-.line {
-
-}
-
-.time {
-
-}
-
-.track {
 }

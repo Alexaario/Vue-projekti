@@ -17,7 +17,7 @@
                 <span>Raide</span>
             </div>
 
-            <div v-for="train in trainsData" class="train-grid">
+            <div v-for="train in trainsData" class="train-grid" v-bind:class="cancelledCheck(train)">
                 <span>
                     {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }}
                 </span>
@@ -579,8 +579,12 @@
                 },
 
                 methods: {
+                    cancelledCheck: function (train) {
+                        if (train[1].cancelled || train[1].timeTableRows[train[2]].cancelled) return "cancelled"
+                    },
+
                     getTrainData: async function () {
-                        const trainsToGet = 50;
+                        const trainsToGet = 200;
 
                         let trains = [];
 
@@ -597,14 +601,12 @@
                         trains.forEach((departures) => {
                             if (departures.trainCategory !== "Commuter") return;
                             if (departures.commuterLineID === "V") return;
-                            if (departures.cancelled === true) return;
 
                             let trainTimeTable = departures.timeTableRows;
 
                             trainTimeTable.forEach((departure, index) => {
                                 if (departure.stationShortCode !== "KE") return;
                                 if (departure.type !== "DEPARTURE") return;
-                                if (departure.cancelled === true) return;
 
                                 let date = new Date(departure.scheduledTime);
                                 departing.push([date, departures, index]);
@@ -623,7 +625,7 @@
 
                     this.timer = setInterval(() => {
                         this.getTrainData();
-                    }, 10000);
+                    }, 20000);
                 },
             });
         </script>
