@@ -8,27 +8,34 @@
 
     <body>
         <div class="wrapper">
-            <div class="datetime">
-                <div class="time">
-                    <span id="hour">00</span>:
-                    <span id="minutes">00</span>:
-                    <span id="seconds">00</span>
-                    <span id="perioid">AM</span>
+            <div class="topper">
+                <div id="clock">
+                    <div class="datetime">
+                        <div class="time">
+                            <span id="hour">00</span>:
+                            <span id="minutes">00</span>:
+                            <span id="seconds">00</span>
+                            <span id="perioid">AM</span>
+                        </div>
+                        <div class="date">
+                            <span id="dayname">Day</span>,
+                            <span id="mounth">Mounth</span>
+                            <span id="daynum">00</span>,
+                            <span id="year">Year</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="date">
-                    <span id="dayname">Day</span>,
-                    <span id="mounth">Mounth</span>
-                    <span id="daynum">00</span>,
-                    <span id="year">Year</span>
+                <div>
+                    nehrigneirgn
                 </div>
             </div>
-            <h1>Keravalta lähtevät junat</h1>
             <div id="trains">
-            <div class="grid">
-                <span>Lähtöaika</span>
+                <h1>Lähtevät junat: {{ cityShort[currentCity] }}</h1>
+                <div class="grid">
+                    <span>Lähtö</span>
                 <span>Lähtöön</span>
                 <span>Juna</span>
-                <span>Määränpää</span>
+                <span>Mihin</span>
                 <span>Raide</span>
             </div>
             
@@ -53,14 +60,16 @@
         </div>
     </div>
 </div>
+</div>
 
 <script language="javascript">
     var vm = new Vue({
         el: "#trains",
         data: {
             trainsData: null,
+            currentCity: "",
             cityShort: {
-                        "AHO": "Ahonpää",
+                "AHO": "Ahonpää",
                         "AHV": "Ahvenus",
                         "AIN": "Ainola",
                         "ARL": "Airaksela",
@@ -631,12 +640,13 @@
 
                     getTrainData: async function () {
                         const trainsToGet = 20;
+                        const cityToGet = "AIN";
 
                         let trains = [];
 
                         await axios
                             .get(
-                                `https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=${trainsToGet}&station=KE`
+                                `https://rata.digitraffic.fi/api/v1/live-trains?arrived_trains=0&arriving_trains=0&departed_trains=0&departing_trains=${trainsToGet}&station=${cityToGet}`
                             )
                             .then((res) => {
                                 trains = res.data;
@@ -651,7 +661,7 @@
                             let trainTimeTable = departures.timeTableRows;
 
                             trainTimeTable.forEach((departure, index) => {
-                                if (departure.stationShortCode !== "KE") return;
+                                if (departure.stationShortCode !== cityToGet) return;
                                 if (departure.type !== "DEPARTURE") return;
 
                                 let date = new Date(departure.scheduledTime);
@@ -662,7 +672,7 @@
                         console.log("Update");
 
                         this.trainsData = departing.sort();
-                        console.log(departing.sort());
+                        this.currentCity = cityToGet;
                     },
                 },
 

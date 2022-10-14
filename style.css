@@ -5,6 +5,8 @@
 
 html {
   background-color: black;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 h1 {
@@ -33,14 +35,8 @@ h4 {
   justify-items: center;
 }
 
-.cancelled {
-  text-decoration: line-through;
-  background-color: red;
-}
-
 .grid > * {
   padding: 0.5rem;
-  border: black solid 2px;
   background-color: black;
   border: 3px solid #4d94ff;
   color: #cce0ff;
@@ -49,10 +45,14 @@ h4 {
   border-radius: 10px;
 }
 
+.cancelled {
+  text-decoration: line-through;
+  background-color: red;
+}
+
 .train-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  justify-items: center;
   margin-bottom: 1rem;
 }
 
@@ -68,7 +68,7 @@ h4 {
   margin-bottom: 3rem;
   background: #000;
   font-family: "Segoe UI", sans-serif;
-  width: 330px;
+  width: min-content;
   padding: 15px 10px;
   border: 3px solid #4d94ff;
   border-radius: 20px;
@@ -105,4 +105,10 @@ h4 {
   margin-top: 10px;
   padding: 0 5px;
   border-radius: 10px;
+}
+
+.topper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
