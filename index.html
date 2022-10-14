@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <script src="https://unpkg.com/vue@2.4.3/dist/vue.js"></script>
@@ -15,7 +16,7 @@
                 <span>Määränpää</span>
                 <span>Raide</span>
             </div>
-            
+
             <div v-for="train in trainsData" class="train-grid">
                 <span>
                     {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }}
@@ -579,7 +580,7 @@
 
                 methods: {
                     getTrainData: async function () {
-                        const trainsToGet = 30;
+                        const trainsToGet = 50;
 
                         let trains = [];
 
