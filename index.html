@@ -26,14 +26,21 @@
             <div id="trains">
             <div class="grid">
                 <span>Lähtöaika</span>
+                <span>Raide</span>
+                <span>Lähtöön</span>
                 <span>Juna</span>
                 <span>Määränpää</span>
-                <span>Raide</span>
             </div>
-
+            
             <div v-for="train in trainsData" class="train-grid" v-bind:class="cancelledCheck(train)">
                 <span>
                     {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }}
+                </span>
+                <span>
+                    {{ train[1].timeTableRows[train[2]].commercialTrack }}
+                </span>
+                <span>
+                    {{ setTime(train) }}
                 </span>
                 <span>
                     {{ train[1].commuterLineID }}
@@ -41,20 +48,18 @@
                 <span>
                     {{ cityShort[train[1].timeTableRows[train[1].timeTableRows.length - 1].stationShortCode] }}
                 </span>
-                <span>
-                    {{ train[1].timeTableRows[train[2]].commercialTrack }}
-                </span>
-                </div>
             </div>
+            <h4>Tiedot saatu Liikenneviraston Digitraffic. Rajapinnan lisenssi on CC BY 4.0.</h4>
         </div>
     </div>
+</div>
 
-        <script language="javascript">
-            var vm = new Vue({
-                el: "#trains",
-                data: {
-                    trainsData: null,
-                    cityShort: {
+<script language="javascript">
+    var vm = new Vue({
+        el: "#trains",
+        data: {
+            trainsData: null,
+            cityShort: {
                         "AHO": "Ahonpää",
                         "AHV": "Ahvenus",
                         "AIN": "Ainola",
@@ -593,12 +598,39 @@
                 },
 
                 methods: {
+                    setTime: function(train) {
+                        let midnight = new Date();
+                        midnight.setHours(0,0,0,0);
+
+                        let msToDeparture = new Date(train[0]) - new Date()
+
+                        timeUntilDeparture = new Date(midnight.setMilliseconds(msToDeparture))
+
+                        formattedTime = ""
+
+                        if (timeUntilDeparture < 0) {
+                            return 0
+                        }
+
+                        if (timeUntilDeparture.getHours()) {
+                            if (timeUntilDeparture.getMinutes() < 10) {
+                                formattedTime = `${timeUntilDeparture.getHours()}.0${timeUntilDeparture.getMinutes()}`
+                            } else {
+                                formattedTime = `${timeUntilDeparture.getHours()}.${timeUntilDeparture.getMinutes()}`
+                            }
+                        } else {
+                            formattedTime = `${timeUntilDeparture.getMinutes()}`
+                        }
+
+                        return formattedTime
+                    },
+
                     cancelledCheck: function (train) {
                         if (train[1].cancelled || train[1].timeTableRows[train[2]].cancelled) return "cancelled"
                     },
 
                     getTrainData: async function () {
-                        const trainsToGet = 40;
+                        const trainsToGet = 20;
 
                         let trains = [];
 
@@ -639,7 +671,7 @@
 
                     this.timer = setInterval(() => {
                         this.getTrainData();
-                    }, 20000);
+                    }, 10000);
 
                     initClock()
                 },

@@ -13,17 +13,22 @@ h1 {
   color: white;
 }
 
+h4 {
+  color: white;
+  text-align: center;
+  margin-top: 4rem;
+}
+
 .wrapper {
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .grid {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   margin-bottom: 2rem;
   justify-items: center;
 }
@@ -34,7 +39,7 @@ h1 {
 }
 
 .grid > * {
-  padding: 1rem;
+  padding: 0.5rem;
   border: black solid 2px;
   background-color: black;
   border: 3px solid #4d94ff;
@@ -46,9 +51,9 @@ h1 {
 
 .train-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   justify-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .train-grid > * {
