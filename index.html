@@ -15,18 +15,20 @@
                 <span>Määränpää</span>
                 <span>Raide</span>
             </div>
+            
             <div v-for="train in trainsData" class="train-grid">
-                <div class="time">
-                    {{ train[0].toLocaleTimeString("fi-FI") }}
-                </div>
-                <div class="line">
+                <span>
+                    {{ train[0].toLocaleTimeString("fi-FI").toString().slice(0, -3) }}
+                </span>
+                <span>
                     {{ train[1].commuterLineID }}
-                </div>
-                <div class="destination">
+                </span>
+                <span>
                     {{ cityShort[train[1].timeTableRows[train[1].timeTableRows.length - 1].stationShortCode] }}
-                </div>
-                <div class="track">
+                </span>
+                <span>
                     {{ train[1].timeTableRows[train[2]].commercialTrack }}
+                </span>
                 </div>
             </div>
         </div>
