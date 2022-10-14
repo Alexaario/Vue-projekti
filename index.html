@@ -27,9 +27,9 @@
             <div class="grid">
                 <span>Lähtöaika</span>
                 <span>Lähtöön</span>
-                <span>Raide</span>
                 <span>Juna</span>
                 <span>Määränpää</span>
+                <span>Raide</span>
             </div>
             
             <div v-for="train in trainsData" class="train-grid" v-bind:class="cancelledCheck(train)">
@@ -40,13 +40,13 @@
                     {{ setTime(train) }}
                 </span>
                 <span>
-                    {{ train[1].timeTableRows[train[2]].commercialTrack }}
-                </span>
-                <span>
                     {{ train[1].commuterLineID }}
                 </span>
                 <span>
                     {{ cityShort[train[1].timeTableRows[train[1].timeTableRows.length - 1].stationShortCode] }}
+                </span>
+                <span>
+                    {{ train[1].timeTableRows[train[2]].commercialTrack }}
                 </span>
             </div>
             <h4>Tiedot saatu Liikenneviraston Digitrafficista. Rajapinnan lisenssi on CC BY 4.0.</h4>
