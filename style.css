@@ -1,0 +1,50 @@
+* {
+  margin:0;
+  padding: 0;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+.wrapper {
+  padding: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 1rem;
+  justify-items: center;
+}
+
+.grid > * {
+  width: fit-content;
+  padding: 1rem;
+  border: black solid 2px;
+  background-color: lightgreen;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.train-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+}
+
+.destination {
+  margin-bottom: 0.1rem;
+}
+
+.line {
+
+}
+
+.departure {
+
+}
+
+.track {
+
+}
