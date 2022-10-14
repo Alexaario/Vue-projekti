@@ -12,14 +12,14 @@ h1 {
 }
 
 .grid {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, 1fr);
   margin-bottom: 1rem;
   justify-items: center;
 }
 
 .grid > * {
-  width: max-content;
   padding: 1rem;
   border: black solid 2px;
   background-color: lightgreen;
